@@ -1,0 +1,117 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+// Or, view in VSCode with extension: "DBML Live Preview"
+
+Project DBML {
+  Note: '''
+Accommodation: Table to store accommodation details for tours.
+AccommodationBooking: Table to store accommodation bookings connected to a tour booking.
+Booking: Table to store booking details for tours.
+Activity: Table to store available activities during tours.
+Customer: Table to store customer information.
+Tour: Table to store tour information.
+Guide: Table to store guide details.
+GuideAssignment: Table to store which guide is assigned to which tour.
+Review: Table to store reviews from customers for the tours they have participated in.
+TourActivity: Table to store activities included in each tour.
+Transportation: Table to store transportation options for tours.
+TransportationBooking: Table to store transportation bookings linked to a specific tour booking.
+'''
+}
+
+Table Accommodation {
+    id INTEGER [primary key]
+    name VARCHAR 
+    location VARCHAR 
+    capacity INTEGER 
+    }
+
+Table AccommodationBooking {
+    id INTEGER [primary key]
+    accommodation_id INTEGER 
+    booking_id INTEGER 
+    }
+
+Table Booking {
+    id INTEGER [primary key]
+    customer_id INTEGER 
+    tour_id INTEGER 
+    booking_date DATETIME 
+    number_of_people INTEGER 
+    }
+
+Table Activity {
+    id INTEGER [primary key]
+    name VARCHAR 
+    description VARCHAR 
+    }
+
+Table Customer {
+    id INTEGER [primary key]
+    name VARCHAR 
+    email VARCHAR 
+    phone VARCHAR 
+    }
+
+Table Tour {
+    id INTEGER [primary key]
+    name VARCHAR 
+    description VARCHAR 
+    price_per_person FLOAT 
+    duration_days INTEGER 
+    }
+
+Table Guide {
+    id INTEGER [primary key]
+    name VARCHAR 
+    experience_years INTEGER 
+    }
+
+Table GuideAssignment {
+    id INTEGER [primary key]
+    guide_id INTEGER 
+    tour_id INTEGER 
+    }
+
+Table Review {
+    id INTEGER [primary key]
+    customer_id INTEGER 
+    tour_id INTEGER 
+    review_date DATETIME 
+    rating INTEGER 
+    comment VARCHAR 
+    }
+
+Table TourActivity {
+    id INTEGER [primary key]
+    tour_id INTEGER 
+    activity_id INTEGER 
+    }
+
+Table Transportation {
+    id INTEGER [primary key]
+    Type VARCHAR 
+    capacity INTEGER 
+    }
+
+Table TransportationBooking {
+    id INTEGER [primary key]
+    transportation_id INTEGER 
+    booking_id INTEGER 
+    }
+
+
+
+// Relationships
+    Ref: AccommodationBooking.(accommodation_id) < Accommodation.(id)
+    Ref: AccommodationBooking.(booking_id) < Booking.(id)
+    Ref: Booking.(customer_id) < Customer.(id)
+    Ref: Booking.(tour_id) < Tour.(id)
+    Ref: GuideAssignment.(guide_id) < Guide.(id)
+    Ref: GuideAssignment.(tour_id) < Tour.(id)
+    Ref: Review.(customer_id) < Customer.(id)
+    Ref: Review.(tour_id) < Tour.(id)
+    Ref: TourActivity.(activity_id) < Activity.(id)
+    Ref: TourActivity.(tour_id) < Tour.(id)
+    Ref: TransportationBooking.(booking_id) < Booking.(id)
+    Ref: TransportationBooking.(transportation_id) < Transportation.(id)

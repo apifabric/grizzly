@@ -1,0 +1,176 @@
+<div class="container">
+<o-form-container breadcrumb="yes" breadcrumb-label-columns="id" breadcrumb-separator=", " class="fill-form">
+      <o-form #form attr="Booking_form_edit" 
+        service="Booking" 
+        entity="Booking" 
+        fxLayout="column" 
+        show-header="yes" 
+        header-actions="R;I;U;D"
+        #oDetailForm keys="id" 
+        keys-sql-types="INTEGER" 
+        show-header-navigation="yes"
+        (onDataLoaded)="onDataLoaded($event)">
+
+  <o-row attr="row1" layout-align="start stretch">
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+      
+      <o-integer-input #id attr="id" label=" id*" type="integer" editable="no" required="no" ></o-integer-input>
+      
+      <o-list-picker 
+        attr="customer_id"
+        service="Customer" 
+        entity="CustomerType"
+        fxFlex="30" 
+        query-on-init="no" 
+        query-on-bind="yes" 
+        required="yes" 
+        enabled="yes" 
+        filter="yes"
+        value-column="id" 
+        value-column-type="INTEGER"  
+        keys="id" 
+        columns="id;customer_id;name" 
+        title="customer_id"
+        visible-columns="id;name" 
+        separator=" - " width="680px" class="form-field">
+</o-list-picker>
+      
+      <o-list-picker 
+        attr="tour_id"
+        service="Tour" 
+        entity="TourType"
+        fxFlex="30" 
+        query-on-init="no" 
+        query-on-bind="yes" 
+        required="yes" 
+        enabled="yes" 
+        filter="yes"
+        value-column="id" 
+        value-column-type="INTEGER"  
+        keys="id" 
+        columns="id;tour_id;name" 
+        title="tour_id"
+        visible-columns="id;name" 
+        separator=" - " width="680px" class="form-field">
+</o-list-picker>
+      
+      <o-date-input #booking_date attr="booking_date" type="timestamp" label="booking_date" editable="no" required="no" format="LL" fxFlex="20%" class="form-field"></o-date-input>
+      
+      <o-integer-input #number_of_people attr="number_of_people" label="number_of_people" type="integer" editable="no" required="yes" ></o-integer-input>
+      
+    </div>
+  </o-row>
+      
+      <mat-tab-group fxFill>
+        
+        <mat-tab label="ACCOMMODATIONBOOKING-booking_id">
+    <div layout-padding>
+      <o-table 
+        attr="AccommodationBookingTable" 
+        service="AccommodationBooking" 
+        entity="AccommodationBooking" 
+        keys="id"
+        parent-keys="booking_id:id"
+        columns="id;accommodation_id;booking_id"  
+        horizontal-scroll="yes"
+        detail-form-route="AccommodationBooking" 
+        edit-form-route="AccommodationBooking"
+        visible-columns="id;accommodation_id;booking_id"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="accommodation_id" title="accommodation_id">
+    <o-table-cell-renderer-service attr="accommodation_id" 
+        service="Accommodation" entity="AccommodationType" columns="id;name"
+        parent-keys="id:accommodation_id"
+        value-column="name" keys="accommodation_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="booking_id" title="booking_id">
+    <o-table-cell-renderer-service attr="booking_id" 
+        service="Booking" entity="BookingType" columns="id;id"
+        parent-keys="id:booking_id"
+        value-column="id" keys="booking_id"
+        visible-columns="id" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="TRANSPORTATIONBOOKING-booking_id">
+    <div layout-padding>
+      <o-table 
+        attr="TransportationBookingTable" 
+        service="TransportationBooking" 
+        entity="TransportationBooking" 
+        keys="id"
+        parent-keys="booking_id:id"
+        columns="id;booking_id;transportation_id"  
+        horizontal-scroll="yes"
+        detail-form-route="TransportationBooking" 
+        edit-form-route="TransportationBooking"
+        visible-columns="id;booking_id;transportation_id"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="booking_id" title="booking_id">
+    <o-table-cell-renderer-service attr="booking_id" 
+        service="Booking" entity="BookingType" columns="id;id"
+        parent-keys="id:booking_id"
+        value-column="id" keys="booking_id"
+        visible-columns="id" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="transportation_id" title="transportation_id">
+    <o-table-cell-renderer-service attr="transportation_id" 
+        service="Transportation" entity="TransportationType" columns="id;id"
+        parent-keys="id:transportation_id"
+        value-column="id" keys="transportation_id"
+        visible-columns="id" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+      </mat-tab-group>
+      
+    </o-form>
+  </o-form-container>
+</div>

@@ -1,0 +1,534 @@
+about:
+  date: October 28, 2024 15:39:43
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+entities:
+  Accommodation:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: location
+      template: text
+      type: VARCHAR
+    - name: capacity
+      required: true
+      template: integer
+      type: INTEGER
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table to store accommodation details for tours.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Table to store accommodation details for tours.
+    label: Accommodation
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - accommodation_id
+      name: AccommodationBookingList
+      resource: AccommodationBooking
+    type: Accommodation
+  AccommodationBooking:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: accommodation_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: booking_id
+      required: true
+      template: integer
+      type: INTEGER
+    description: Table to store accommodation bookings connected to a tour booking.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table to store accommodation bookings connected to a tour booking.
+    label: AccommodationBooking
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - accommodation_id
+      name: accommodation
+      resource: Accommodation
+    - direction: toone
+      fks:
+      - booking_id
+      name: booking
+      resource: Booking
+    type: AccommodationBooking
+  Activity:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: description
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table to store available activities during tours.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Table to store available activities during tours.
+    label: Activity
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - activity_id
+      name: TourActivityList
+      resource: TourActivity
+    type: Activity
+  Booking:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: customer_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: tour_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: booking_date
+      type: DATETIME
+    - name: number_of_people
+      required: true
+      template: integer
+      type: INTEGER
+    description: Table to store booking details for tours.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table to store booking details for tours.
+    label: Booking
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - booking_id
+      name: AccommodationBookingList
+      resource: AccommodationBooking
+    - direction: tomany
+      fks:
+      - booking_id
+      name: TransportationBookingList
+      resource: TransportationBooking
+    - direction: toone
+      fks:
+      - customer_id
+      name: customer
+      resource: Customer
+    - direction: toone
+      fks:
+      - tour_id
+      name: tour
+      resource: Tour
+    type: Booking
+  Customer:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: email
+      required: true
+      template: text
+      type: VARCHAR
+    - name: phone
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table to store customer information.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Table to store customer information.
+    label: Customer
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - customer_id
+      name: BookingList
+      resource: Booking
+    - direction: tomany
+      fks:
+      - customer_id
+      name: ReviewList
+      resource: Review
+    type: Customer
+  Guide:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: experience_years
+      required: true
+      template: integer
+      type: INTEGER
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table to store guide details.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Table to store guide details.
+    label: Guide
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - guide_id
+      name: GuideAssignmentList
+      resource: GuideAssignment
+    type: Guide
+  GuideAssignment:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: guide_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: tour_id
+      required: true
+      template: integer
+      type: INTEGER
+    description: Table to store which guide is assigned to which tour.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table to store which guide is assigned to which tour.
+    label: GuideAssignment
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - guide_id
+      name: guide
+      resource: Guide
+    - direction: toone
+      fks:
+      - tour_id
+      name: tour
+      resource: Tour
+    type: GuideAssignment
+  Review:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: customer_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: tour_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: review_date
+      type: DATETIME
+    - name: rating
+      required: true
+      template: integer
+      type: INTEGER
+    - name: comment
+      template: text
+      type: VARCHAR
+    description: Table to store reviews from customers for the tours they have participated
+      in.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table to store reviews from customers for the tours they have participated
+      in.
+    label: Review
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - customer_id
+      name: customer
+      resource: Customer
+    - direction: toone
+      fks:
+      - tour_id
+      name: tour
+      resource: Tour
+    type: Review
+  Tour:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: description
+      template: text
+      type: VARCHAR
+    - name: price_per_person
+      required: true
+      template: real
+      type: FLOAT
+    - name: duration_days
+      required: true
+      template: integer
+      type: INTEGER
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Table to store tour information.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    home_template: home_template.html
+    info_list: Table to store tour information.
+    label: Tour
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - tour_id
+      name: BookingList
+      resource: Booking
+    - direction: tomany
+      fks:
+      - tour_id
+      name: GuideAssignmentList
+      resource: GuideAssignment
+    - direction: tomany
+      fks:
+      - tour_id
+      name: ReviewList
+      resource: Review
+    - direction: tomany
+      fks:
+      - tour_id
+      name: TourActivityList
+      resource: TourActivity
+    type: Tour
+  TourActivity:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: activity_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: tour_id
+      required: true
+      template: integer
+      type: INTEGER
+    description: Table to store activities included in each tour.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table to store activities included in each tour.
+    label: TourActivity
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - activity_id
+      name: activity
+      resource: Activity
+    - direction: toone
+      fks:
+      - tour_id
+      name: tour
+      resource: Tour
+    type: TourActivity
+  Transportation:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: Type
+      required: true
+      template: text
+      type: VARCHAR
+    - name: capacity
+      required: true
+      template: integer
+      type: INTEGER
+    description: Table to store transportation options for tours.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table to store transportation options for tours.
+    label: Transportation
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - transportation_id
+      name: TransportationBookingList
+      resource: TransportationBooking
+    type: Transportation
+  TransportationBooking:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: booking_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: transportation_id
+      required: true
+      template: integer
+      type: INTEGER
+    description: Table to store transportation bookings linked to a specific tour
+      booking.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    home_template: home_template.html
+    info_list: Table to store transportation bookings linked to a specific tour booking.
+    label: TransportationBooking
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - booking_id
+      name: booking
+      resource: Booking
+    - direction: toone
+      fks:
+      - transportation_id
+      name: transportation
+      resource: Transportation
+    type: TransportationBooking
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: false
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    mode: tab
+    pick_style: list
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: false

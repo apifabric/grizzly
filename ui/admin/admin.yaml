@@ -1,0 +1,358 @@
+about:
+  date: October 28, 2024 15:39:43
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+info:
+  number_relationships: 12
+  number_tables: 12
+info_toggle_checked: true
+resources:
+  Accommodation:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: location
+    - name: capacity
+      required: true
+    - name: id
+    description: Table to store accommodation details for tours.
+    info_list: Table to store accommodation details for tours.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - accommodation_id
+      name: AccommodationBookingList
+      resource: AccommodationBooking
+    type: Accommodation
+    user_key: name
+  AccommodationBooking:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: accommodation_id
+      required: true
+    - name: booking_id
+      required: true
+    description: Table to store accommodation bookings connected to a tour booking.
+    info_list: Table to store accommodation bookings connected to a tour booking.
+    tab_groups:
+    - direction: toone
+      fks:
+      - accommodation_id
+      name: accommodation
+      resource: Accommodation
+    - direction: toone
+      fks:
+      - booking_id
+      name: booking
+      resource: Booking
+    type: AccommodationBooking
+    user_key: id
+  Activity:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: description
+    - name: id
+    description: Table to store available activities during tours.
+    info_list: Table to store available activities during tours.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - activity_id
+      name: TourActivityList
+      resource: TourActivity
+    type: Activity
+    user_key: name
+  Booking:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: customer_id
+      required: true
+    - name: tour_id
+      required: true
+    - name: booking_date
+      type: DATETIME
+    - name: number_of_people
+      required: true
+    description: Table to store booking details for tours.
+    info_list: Table to store booking details for tours.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - booking_id
+      name: AccommodationBookingList
+      resource: AccommodationBooking
+    - direction: tomany
+      fks:
+      - booking_id
+      name: TransportationBookingList
+      resource: TransportationBooking
+    - direction: toone
+      fks:
+      - customer_id
+      name: customer
+      resource: Customer
+    - direction: toone
+      fks:
+      - tour_id
+      name: tour
+      resource: Tour
+    type: Booking
+    user_key: id
+  Customer:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: email
+      required: true
+    - name: phone
+    - name: id
+    description: Table to store customer information.
+    info_list: Table to store customer information.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - customer_id
+      name: BookingList
+      resource: Booking
+    - direction: tomany
+      fks:
+      - customer_id
+      name: ReviewList
+      resource: Review
+    type: Customer
+    user_key: name
+  Guide:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: experience_years
+      required: true
+    - name: id
+    description: Table to store guide details.
+    info_list: Table to store guide details.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - guide_id
+      name: GuideAssignmentList
+      resource: GuideAssignment
+    type: Guide
+    user_key: name
+  GuideAssignment:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: guide_id
+      required: true
+    - name: tour_id
+      required: true
+    description: Table to store which guide is assigned to which tour.
+    info_list: Table to store which guide is assigned to which tour.
+    tab_groups:
+    - direction: toone
+      fks:
+      - guide_id
+      name: guide
+      resource: Guide
+    - direction: toone
+      fks:
+      - tour_id
+      name: tour
+      resource: Tour
+    type: GuideAssignment
+    user_key: id
+  Review:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: customer_id
+      required: true
+    - name: tour_id
+      required: true
+    - name: review_date
+      type: DATETIME
+    - name: rating
+      required: true
+    - name: comment
+    description: Table to store reviews from customers for the tours they have participated
+      in.
+    info_list: Table to store reviews from customers for the tours they have participated
+      in.
+    tab_groups:
+    - direction: toone
+      fks:
+      - customer_id
+      name: customer
+      resource: Customer
+    - direction: toone
+      fks:
+      - tour_id
+      name: tour
+      resource: Tour
+    type: Review
+    user_key: id
+  Tour:
+    attributes:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+    - name: description
+    - name: price_per_person
+      required: true
+    - name: duration_days
+      required: true
+    - name: id
+    description: Table to store tour information.
+    info_list: Table to store tour information.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - tour_id
+      name: BookingList
+      resource: Booking
+    - direction: tomany
+      fks:
+      - tour_id
+      name: GuideAssignmentList
+      resource: GuideAssignment
+    - direction: tomany
+      fks:
+      - tour_id
+      name: ReviewList
+      resource: Review
+    - direction: tomany
+      fks:
+      - tour_id
+      name: TourActivityList
+      resource: TourActivity
+    type: Tour
+    user_key: name
+  TourActivity:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: activity_id
+      required: true
+    - name: tour_id
+      required: true
+    description: Table to store activities included in each tour.
+    info_list: Table to store activities included in each tour.
+    tab_groups:
+    - direction: toone
+      fks:
+      - activity_id
+      name: activity
+      resource: Activity
+    - direction: toone
+      fks:
+      - tour_id
+      name: tour
+      resource: Tour
+    type: TourActivity
+    user_key: id
+  Transportation:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: Type
+      required: true
+    - name: capacity
+      required: true
+    description: Table to store transportation options for tours.
+    info_list: Table to store transportation options for tours.
+    tab_groups:
+    - direction: tomany
+      fks:
+      - transportation_id
+      name: TransportationBookingList
+      resource: TransportationBooking
+    type: Transportation
+    user_key: id
+  TransportationBooking:
+    attributes:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+    - name: booking_id
+      required: true
+    - name: transportation_id
+      required: true
+    description: Table to store transportation bookings linked to a specific tour
+      booking.
+    info_list: Table to store transportation bookings linked to a specific tour booking.
+    tab_groups:
+    - direction: toone
+      fks:
+      - booking_id
+      name: booking
+      resource: Booking
+    - direction: toone
+      fks:
+      - transportation_id
+      name: transportation
+      resource: Transportation
+    type: TransportationBooking
+    user_key: id
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    detail_mode: tab
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: 'false'
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    new_mode: dialog
+    pick_style: list
+    row_height: small,
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: 'false'

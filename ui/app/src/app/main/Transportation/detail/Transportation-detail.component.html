@@ -1,0 +1,85 @@
+<div class="container">
+<o-form-container breadcrumb="yes" breadcrumb-label-columns="id" breadcrumb-separator=", " class="fill-form">
+      <o-form #form attr="Transportation_form_edit" 
+        service="Transportation" 
+        entity="Transportation" 
+        fxLayout="column" 
+        show-header="yes" 
+        header-actions="R;I;U;D"
+        #oDetailForm keys="id" 
+        keys-sql-types="INTEGER" 
+        show-header-navigation="yes"
+        (onDataLoaded)="onDataLoaded($event)">
+
+  <o-row attr="row1" layout-align="start stretch">
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+      
+      <o-integer-input #id attr="id" label=" id*" type="integer" editable="no" required="no" ></o-integer-input>
+      
+      <o-text-input #Type attr="Type" label="Type" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-integer-input #capacity attr="capacity" label="capacity" type="integer" editable="no" required="yes" ></o-integer-input>
+      
+    </div>
+  </o-row>
+      
+      <mat-tab-group fxFill>
+        
+        <mat-tab label="TRANSPORTATIONBOOKING-transportation_id">
+    <div layout-padding>
+      <o-table 
+        attr="TransportationBookingTable" 
+        service="TransportationBooking" 
+        entity="TransportationBooking" 
+        keys="id"
+        parent-keys="transportation_id:id"
+        columns="id;booking_id;transportation_id"  
+        horizontal-scroll="yes"
+        detail-form-route="TransportationBooking" 
+        edit-form-route="TransportationBooking"
+        visible-columns="id;booking_id;transportation_id"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="booking_id" title="booking_id">
+    <o-table-cell-renderer-service attr="booking_id" 
+        service="Booking" entity="BookingType" columns="id;id"
+        parent-keys="id:booking_id"
+        value-column="id" keys="booking_id"
+        visible-columns="id" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column attr="transportation_id" title="transportation_id">
+    <o-table-cell-renderer-service attr="transportation_id" 
+        service="Transportation" entity="TransportationType" columns="id;id"
+        parent-keys="id:transportation_id"
+        value-column="id" keys="transportation_id"
+        visible-columns="id" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+      </mat-tab-group>
+      
+    </o-form>
+  </o-form-container>
+</div>

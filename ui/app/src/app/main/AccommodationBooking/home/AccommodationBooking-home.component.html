@@ -1,0 +1,49 @@
+<o-form-layout-manager attr="AccommodationBooking" mode="tab" title="ACCOMMODATIONBOOKING">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="AccommodationBookingTable" 
+            service="AccommodationBooking" 
+            entity="AccommodationBooking" 
+            title="ACCOMMODATIONBOOKING"
+            keys="id"
+            columns="id;accommodation_id;booking_id" 
+            header-actions="R;D"
+            visible-columns="id;accommodation_id;booking_id"  
+            sort-columns="id" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-column attr="accommodation_id" title="accommodation_id">
+    <o-table-cell-renderer-service attr="accommodation_id" 
+        service="Accommodation" entity="AccommodationType" columns="id;name"
+        parent-keys="id:accommodation_id"
+        value-column="name" keys="accommodation_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column attr="booking_id" title="booking_id">
+    <o-table-cell-renderer-service attr="booking_id" 
+        service="Booking" entity="BookingType" columns="id;id"
+        parent-keys="id:booking_id"
+        value-column="id" keys="booking_id"
+        visible-columns="id" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>
